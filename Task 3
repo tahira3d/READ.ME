@@ -1,0 +1,94 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyComplexLayoutApp());
+}
+
+class MyComplexLayoutApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Complex UI Screen',
+      home: ComplexScreen(),
+    );
+  }
+}
+
+class ComplexScreen extends StatefulWidget {
+  @override
+  _ComplexScreenState createState() => _ComplexScreenState();
+}
+
+class _ComplexScreenState extends State<ComplexScreen> {
+  String inputText = '';
+  List<String> items = ['Item 1', 'Item 2', 'Item 3'];
+
+  final TextEditingController _controller = TextEditingController();
+
+  void _addItem() {
+    setState(() {
+      if (_controller.text.trim().isNotEmpty) {
+        items.add(_controller.text.trim());
+        _controller.clear();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Flutter Layout Example')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Welcome to the App', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Button 1'),
+                ),
+                SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Text('Button 2'),
+                ),
+              ],
+            ),
+            SizedBox(height: 20),
+            Image.network(
+              'https://flutter.dev/images/flutter-logo-sharing.png',
+              height: 100,
+            ),
+            SizedBox(height: 20),
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Enter item',
+              ),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _addItem,
+              child: Text('Add to List'),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: items.length,
+                itemBuilder: (context, index) => ListTile(
+                  leading: Icon(Icons.list),
+                  title: Text(items[index]),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
